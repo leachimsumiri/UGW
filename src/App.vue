@@ -1,28 +1,34 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Events :data="data"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Events from './components/Events.vue'
+import { createClient } from '@supabase/supabase-js'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Events
+  },
+  async mounted() {
+    const options = {
+      schema: 'public',
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true
+    }
+    const supabase = createClient('https://tfnxpxrrpejortbsbjnd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNzY5Mzk1MiwiZXhwIjoxOTUzMjY5OTUyfQ.mDH0Nc66EONfT-9RYu9zy-Uhz9GOEOK6fB5fWI0T8Sw', options)
+    const { data, error } = await supabase
+        .from('events')
+        .select()
+
+    console.log(data)
+    console.log(error)
+
+    this.data = data
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
