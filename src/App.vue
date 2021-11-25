@@ -1,34 +1,49 @@
 <template>
   <div id="app">
-    <Events :data="data"/>
+    <Events :data="events"/>
+    <Locations :data="locations"/>
   </div>
 </template>
 
 <script>
+import supabase from './supabase/supabase_client'
+
 import Events from './components/Events.vue'
-import { createClient } from '@supabase/supabase-js'
+import Locations from './components/Locations.vue'
 
 export default {
   name: 'App',
   components: {
+    Locations,
     Events
   },
   async mounted() {
-    const options = {
-      schema: 'public',
-      autoRefreshToken: true,
-      persistSession: true,
-      detectSessionInUrl: true
+    this.events = await this.fetchEvents()
+    this.locations = await this.fetchLocations()
+  },
+  data() {
+    return {
+      events: null,
+      locations: null
     }
-    const supabase = createClient('https://tfnxpxrrpejortbsbjnd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNzY5Mzk1MiwiZXhwIjoxOTUzMjY5OTUyfQ.mDH0Nc66EONfT-9RYu9zy-Uhz9GOEOK6fB5fWI0T8Sw', options)
-    const { data, error } = await supabase
-        .from('events')
-        .select()
+  },
+  methods: {
+    async fetchEvents() {
+      const { data, error } = await supabase.from('events').select()
 
-    console.log(data)
-    console.log(error)
+      console.log(data)
+      console.log(error)
 
-    this.data = data
+      return data
+    },
+    async fetchLocations() {
+      const { data, error } = await supabase.from('locations').select()
+
+      console.log(data)
+      console.log(error)
+
+      return data
+    }
   }
 }
 </script>
