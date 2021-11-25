@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <Events :data="events"/>
+    <Events :data="events" :busy="eventFetchingActive"/>
     <br>
-    <Locations :data="locations"/>
+    <Locations :data="locations" :busy="locationFetchingActive"/>
   </div>
 </template>
 
@@ -31,23 +31,31 @@ export default {
   data() {
     return {
       events: [],
-      locations: []
+      eventFetchingActive: false,
+      locations: [],
+      locationFetchingActive: false
     }
   },
   methods: {
     async fetchEvents() {
+      this.eventFetchingActive = true
       const {data, error} = await supabase.from('events').select()
 
       data.forEach(item => {
         this.events.push(new Event(item.id, item.description, item.location_id, new Date(item.time).toISOString()))
       })
+
+      this.eventFetchingActive = false
     },
     async fetchLocations() {
+      this.locationFetchingActive = true
       const {data, error} = await supabase.from('locations').select()
 
       data.forEach(item => {
         this.locations.push(new Location(item.id, item.description, item.address, item.lat, item.long))
       })
+
+      this.locationFetchingActive = false
     }
   }
 }

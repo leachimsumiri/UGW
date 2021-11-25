@@ -7,9 +7,16 @@
         :items="data"
         :fields="fields"
         :sort-by.sync="sortBy"
-        :sort-desc.sync="sortDesc">
+        :sort-desc.sync="sortDesc"
+        :busy="busy">
       <template #cell(time)="data">
         {{format(new Date(data.value), 'PPpp')}}
+      </template>
+      <template #table-busy>
+        <div class="text-center my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
       </template>
     </b-table>
     <div>
@@ -20,14 +27,18 @@
 </template>
 
 <script>
-import {BTable} from 'bootstrap-vue'
+import {BTable, BSpinner} from 'bootstrap-vue'
 import format from 'date-fns/format'
 
 export default {
   name: 'Events',
-  props: ['data'],
+  props: [
+      'data',
+      'busy'
+  ],
   components: {
-    "b-table": BTable
+    "b-table": BTable,
+    "b-spinner": BSpinner
   },
   data() {
     return {

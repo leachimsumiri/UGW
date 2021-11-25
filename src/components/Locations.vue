@@ -8,7 +8,14 @@
         :fields="fields"
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
-    ></b-table>
+        :busy="busy">
+      <template #table-busy>
+        <div class="text-center my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
+        </div>
+      </template>
+    </b-table>
     <div>
       Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
       <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
@@ -17,13 +24,17 @@
 </template>
 
 <script>
-import {BTable} from 'bootstrap-vue'
+import {BTable, BSpinner} from 'bootstrap-vue'
 
 export default {
   name: 'Locations',
-  props: ['data'],
+  props: [
+    'data',
+    'busy'
+  ],
   components: {
-    "b-table": BTable
+    "b-table": BTable,
+    "b-spinner": BSpinner
   },
   data() {
     return {
