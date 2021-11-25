@@ -5,6 +5,7 @@ export default class Event {
         this._location_id = location_id
         this._location_description = ""
         this._time = time
+        this._current_distance = 0
     }
 
     get id() {
@@ -27,6 +28,10 @@ export default class Event {
         return this._time
     }
 
+    get current_distance() {
+        return this._current_distance
+    }
+
     set id(id) {
         this._id = id
     }
@@ -45,5 +50,9 @@ export default class Event {
 
     set time(time) {
         this._time = time
+    }
+
+    set current_distance(current_distance) {
+        this._current_distance = current_distance
     }
 }

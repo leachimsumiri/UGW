@@ -4,7 +4,7 @@
     <Locations v-else :data="locations" :busy="locationFetchingActive"/>
     <hr>
     <div>
-      Show <span class="table-trigger" @click="eventsTableIsActive =! eventsTableIsActive">{{inactiveTable}}</span>
+      Show <span class="table-trigger" @click="eventsTableIsActive =! eventsTableIsActive">{{ inactiveTable }}</span>
     </div>
   </div>
 </template>
@@ -12,6 +12,7 @@
 <script>
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import {mapState, mapMutations} from 'vuex'
 
 import supabase from './supabase/supabase_client'
 
@@ -27,35 +28,42 @@ export default {
     Locations,
     Events
   },
-  mounted() {
-    this.fetchLocations()
-    this.fetchEvents()
+  async mounted() {
+    await this.fetchLocations()
+    await this.fetchEvents()
   },
   data() {
     return {
-      events: [],
       eventFetchingActive: false,
-      locations: [],
       locationFetchingActive: false,
       eventsTableIsActive: true
     }
   },
   computed: {
+    ...mapState([
+        'events',
+        'locations'
+    ]),
     inactiveTable() {
       return this.eventsTableIsActive ? 'Locations' : 'Events'
     }
   },
   methods: {
+    ...mapMutations([
+        'addEvent',
+        'addLocation',
+        'enrichEventsByLocationDescription'
+    ]),
     async fetchEvents() {
       this.eventFetchingActive = true
 
       const {data, error} = await supabase.from('events').select()
 
       data.forEach(item => {
-        this.events.push(new Event(item.id, item.description, item.location_id, new Date(item.time).toISOString()))
+        this.addEvent(new Event(item.id, item.description, item.location_id, new Date(item.time).toISOString()))
       })
 
-      this.enrichEvents()
+      this.enrichEventsByLocationDescription()
 
       this.eventFetchingActive = false
     },
@@ -65,15 +73,10 @@ export default {
       const {data, error} = await supabase.from('locations').select()
 
       data.forEach(item => {
-        this.locations.push(new Location(item.id, item.description, item.address, item.lat, item.long))
+        this.addLocation(new Location(item.id, item.description, item.address, item.lat, item.long))
       })
 
       this.locationFetchingActive = false
-    },
-    enrichEvents() {
-      this.events.forEach(event => {
-        event._location_description = this.locations.find(location => location.id === event._location_id).description
-      })
     }
   }
 }
