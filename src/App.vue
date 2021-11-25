@@ -8,6 +8,9 @@
 <script>
 import supabase from './supabase/supabase_client'
 
+import Event from './daos/Event'
+import Location from './daos/Location'
+
 import Events from './components/Events.vue'
 import Locations from './components/Locations.vue'
 
@@ -17,32 +20,30 @@ export default {
     Locations,
     Events
   },
-  async mounted() {
-    this.events = await this.fetchEvents()
-    this.locations = await this.fetchLocations()
+  mounted() {
+    this.fetchEvents()
+    this.fetchLocations()
   },
   data() {
     return {
-      events: null,
-      locations: null
+      events: [],
+      locations: []
     }
   },
   methods: {
     async fetchEvents() {
       const { data, error } = await supabase.from('events').select()
 
-      console.log(data)
-      console.log(error)
-
-      return data
+      data.forEach(item => {
+        this.events.push(new Event(item.id, item.description, item.location_id, item.time))
+      })
     },
     async fetchLocations() {
       const { data, error } = await supabase.from('locations').select()
 
-      console.log(data)
-      console.log(error)
-
-      return data
+      data.forEach(item => {
+        this.locations.push(new Location(item.id, item.description, item.address, item.lat, item.long))
+      })
     }
   }
 }

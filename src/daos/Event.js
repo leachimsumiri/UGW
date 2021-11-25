@@ -1,40 +1,40 @@
 export default class Event {
     constructor(id, description, location_id, time) {
-        this.id = id
-        this.description = description
-        this.location_id = location_id
-        this.time = time
+        this._id = id
+        this._description = description
+        this._location_id = location_id
+        this._time = time
     }
 
     get id(){
-        return this.id
+        return this._id
     }
 
     get description(){
-        return this.description
+        return this._description
     }
 
     get location_id(){
-        return this.location_id
+        return this._location_id
     }
 
     get time(){
-        return this.time
+        return this._time
     }
 
     set id(id) {
-        this.id = id
+        this._id = id
     }
 
     set description(description) {
-        this.description = description
+        this._description = description
     }
 
     set location_id(location_id) {
-        this.location_id = location_id
+        this._location_id = location_id
     }
 
     set time(time) {
-        this.time = time
+        this._time = time
     }
 }
