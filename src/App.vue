@@ -1,8 +1,11 @@
 <template>
   <div id="app">
-    <Events :data="events" :busy="eventFetchingActive"/>
-    <br>
-    <Locations :data="locations" :busy="locationFetchingActive"/>
+    <Events v-if="eventsTableIsActive" :data="events" :busy="eventFetchingActive"/>
+    <Locations v-else :data="locations" :busy="locationFetchingActive"/>
+    <hr>
+    <div>
+      Show <span class="table-trigger" @click="eventsTableIsActive =! eventsTableIsActive">{{inactiveTable}}</span>
+    </div>
   </div>
 </template>
 
@@ -25,15 +28,21 @@ export default {
     Events
   },
   mounted() {
-    this.fetchEvents()
     this.fetchLocations()
+    this.fetchEvents()
   },
   data() {
     return {
       events: [],
       eventFetchingActive: false,
       locations: [],
-      locationFetchingActive: false
+      locationFetchingActive: false,
+      eventsTableIsActive: true
+    }
+  },
+  computed: {
+    inactiveTable() {
+      return this.eventsTableIsActive ? 'Locations' : 'Events'
     }
   },
   methods: {
@@ -69,3 +78,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.table-trigger {
+  cursor: pointer;
+  color: -webkit-link;
+}
+</style>
