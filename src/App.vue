@@ -6,6 +6,9 @@
 </template>
 
 <script>
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 import supabase from './supabase/supabase_client'
 
 import Event from './daos/Event'
