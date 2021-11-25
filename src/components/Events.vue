@@ -60,7 +60,7 @@ export default {
       } else {
         this.userLocationSuccessHandler()
       }
-    }, 3000)
+    }, 5000)
   },
   data() {
     return {
