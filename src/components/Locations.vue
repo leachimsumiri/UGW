@@ -17,7 +17,7 @@
       </template>
     </b-table>
     <div>
-      Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
+      Sorting By: <b>{{ getSortByLabel(sortBy) }}</b>, Sort Direction:
       <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
     </div>
   </div>
@@ -50,6 +50,12 @@ export default {
           sortable: true
         }
       ]
+    }
+  },
+  methods: {
+    getSortByLabel(key) {
+      const field = this.fields.find(field => field.key === key)
+      return field.label ? field.label : field.key.charAt(0).toUpperCase() + field.key.slice(1)
     }
   }
 }
