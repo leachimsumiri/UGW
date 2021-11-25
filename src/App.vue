@@ -39,16 +39,20 @@ export default {
   methods: {
     async fetchEvents() {
       this.eventFetchingActive = true
+
       const {data, error} = await supabase.from('events').select()
 
       data.forEach(item => {
         this.events.push(new Event(item.id, item.description, item.location_id, new Date(item.time).toISOString()))
       })
 
+      this.enrichEvents()
+
       this.eventFetchingActive = false
     },
     async fetchLocations() {
       this.locationFetchingActive = true
+
       const {data, error} = await supabase.from('locations').select()
 
       data.forEach(item => {
@@ -56,6 +60,11 @@ export default {
       })
 
       this.locationFetchingActive = false
+    },
+    enrichEvents() {
+      this.events.forEach(event => {
+        event._location_description = this.locations.find(location => location.id === event._location_id).description
+      })
     }
   }
 }

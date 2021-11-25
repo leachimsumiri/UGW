@@ -47,8 +47,12 @@ export default {
       fields: [
         {
           key: 'description',
-          sortable: true,
-          headerAbbr: ''
+          sortable: true
+        },
+        {
+          key: 'location_description',
+          label: 'Location',
+          sortable: true
         },
         {
           key: 'time',

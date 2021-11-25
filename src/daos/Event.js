@@ -3,6 +3,7 @@ export default class Event {
         this._id = id
         this._description = description
         this._location_id = location_id
+        this._location_description = ""
         this._time = time
     }
 
@@ -16,6 +17,10 @@ export default class Event {
 
     get location_id() {
         return this._location_id
+    }
+
+    get location_description() {
+        return this._location_description
     }
 
     get time() {
@@ -32,6 +37,10 @@ export default class Event {
 
     set location_id(location_id) {
         this._location_id = location_id
+    }
+
+    set location_description(location_description) {
+        this._location_description = location_description
     }
 
     set time(time) {
