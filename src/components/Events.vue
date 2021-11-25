@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { BTable } from 'bootstrap-vue'
+import {BTable} from 'bootstrap-vue'
 
 export default {
   name: 'Events',

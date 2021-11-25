@@ -7,23 +7,23 @@ export default class Location {
         this._long = long
     }
 
-    get id(){
+    get id() {
         return this._id
     }
 
-    get description(){
+    get description() {
         return this._description
     }
 
-    get address(){
+    get address() {
         return this._address
     }
 
-    get lat(){
+    get lat() {
         return this._lat
     }
 
-    get long(){
+    get long() {
         return this._long
     }
 

@@ -6,19 +6,19 @@ export default class Event {
         this._time = time
     }
 
-    get id(){
+    get id() {
         return this._id
     }
 
-    get description(){
+    get description() {
         return this._description
     }
 
-    get location_id(){
+    get location_id() {
         return this._location_id
     }
 
-    get time(){
+    get time() {
         return this._time
     }
 

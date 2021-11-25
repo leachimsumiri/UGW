@@ -35,14 +35,14 @@ export default {
   },
   methods: {
     async fetchEvents() {
-      const { data, error } = await supabase.from('events').select()
+      const {data, error} = await supabase.from('events').select()
 
       data.forEach(item => {
         this.events.push(new Event(item.id, item.description, item.location_id, item.time))
       })
     },
     async fetchLocations() {
-      const { data, error } = await supabase.from('locations').select()
+      const {data, error} = await supabase.from('locations').select()
 
       data.forEach(item => {
         this.locations.push(new Location(item.id, item.description, item.address, item.lat, item.long))
