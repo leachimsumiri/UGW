@@ -4,12 +4,14 @@
     <b-table
         striped
         hover
-        aria-sort="none"
         :items="data"
         :fields="fields"
         :sort-by.sync="sortBy"
-        :sort-desc.sync="sortDesc"
-    ></b-table>
+        :sort-desc.sync="sortDesc">
+      <template #cell(time)="data">
+        {{format(new Date(data.value), 'PPpp')}}
+      </template>
+    </b-table>
     <div>
       Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
       <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
@@ -19,6 +21,7 @@
 
 <script>
 import {BTable} from 'bootstrap-vue'
+import format from 'date-fns/format'
 
 export default {
   name: 'Events',
@@ -40,7 +43,8 @@ export default {
           key: 'time',
           sortable: true
         }
-      ]
+      ],
+      format: format
     }
   }
 }

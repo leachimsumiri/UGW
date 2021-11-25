@@ -39,7 +39,7 @@ export default {
       const {data, error} = await supabase.from('events').select()
 
       data.forEach(item => {
-        this.events.push(new Event(item.id, item.description, item.location_id, item.time))
+        this.events.push(new Event(item.id, item.description, item.location_id, new Date(item.time).toISOString()))
       })
     },
     async fetchLocations() {
