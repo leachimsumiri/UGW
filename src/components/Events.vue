@@ -1,7 +1,19 @@
 <template>
   <div>
-    <h1>Events, direct query from db:</h1>
-    <b-table striped hover :items="data"></b-table>
+    <h1>Events</h1>
+    <b-table
+        striped
+        hover
+        aria-sort="none"
+        :items="data"
+        :fields="fields"
+        :sort-by.sync="sortBy"
+        :sort-desc.sync="sortDesc"
+    ></b-table>
+    <div>
+      Sorting By: <b>{{ sortBy }}</b>, Sort Direction:
+      <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
+    </div>
   </div>
 </template>
 
@@ -13,6 +25,23 @@ export default {
   props: ['data'],
   components: {
     "b-table": BTable
+  },
+  data() {
+    return {
+      sortBy: 'time',
+      sortDesc: false,
+      fields: [
+        {
+          key: 'description',
+          sortable: true,
+          headerAbbr: ''
+        },
+        {
+          key: 'time',
+          sortable: true
+        }
+      ]
+    }
   }
 }
 </script>

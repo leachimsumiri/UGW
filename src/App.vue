@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Events :data="events"/>
+    <br>
     <Locations :data="locations"/>
   </div>
 </template>
