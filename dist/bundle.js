@@ -1,3 +1,30 @@
+// A "config.js" needs to be placed in this folder, with following format
+
+export const OPTIONS = {
+    schema: 'public',
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+}
+
+export const SUPABASE_URL = 'https://tfnxpxrrpejortbsbjnd.supabase.co'
+export const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNzY5Mzk1MiwiZXhwIjoxOTUzMjY5OTUyfQ.mDH0Nc66EONfT-9RYu9zy-Uhz9GOEOK6fB5fWI0T8Sw'
+export const IP_INFOS_KEY = '25864308b6a77fd90f8bf04b3021a48c1f2fb302a676dd3809054bc1b07f5b42'
+export const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibGVhY2hpbSIsImEiOiJja3dmbGw1eHowM3FpMm9tbGYwODBjc252In0.1Uy0WQq36UaEURZJPUkB0Q'
+
+// A "config.js" needs to be placed in this folder, with following format
+
+export const OPTIONS = {
+    schema: 'public',
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+}
+
+export const SUPABASE_URL = 'https://[YOUR_SUPABASE_SUB_DOMAIN].supabase.co'
+export const SUPABASE_KEY = '[YOUR_SUPABASE_API_KEY]'
+export const IP_INFOS_KEY = '[YOUR_IP_INFOS_API_KEY]'
+export const MAPBOX_ACCESS_TOKEN = '[YOUR_MAPBOX_ACCESS_TOKEN]'
 export default class Event {
     constructor(id, description, location_id, time) {
         this._id = id
@@ -118,10 +145,6 @@ export default function(lat1, lon1, lat2, lon2) {
     return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
 }
 
-export default '25864308b6a77fd90f8bf04b3021a48c1f2fb302a676dd3809054bc1b07f5b42'
-
-export default 'pk.eyJ1IjoibGVhY2hpbSIsImEiOiJja3dmbGw1eHowM3FpMm9tbGYwODBjc252In0.1Uy0WQq36UaEURZJPUkB0Q'
-
 import Vue from 'vue'
 import App from './App.vue'
 import Vuex from 'vuex'
@@ -166,6 +189,14 @@ export default {
                 state.events.push(newEvent)
             }
         },
+        // addRecurrentEvents(state, newEvent, interval_in_days) {
+        //     if(!state.events.find(event => event.id === newEvent.id)) {
+        //         state.events.push(newEvent)
+                
+        //         // Add 2 additional instances
+        //         // ...
+        //     }
+        // },
         addLocation(state, newLocation) {
             if(!state.locations.find(location => location.id === newLocation.id)) {
                 state.locations.push(newLocation)
@@ -191,20 +222,9 @@ export default {
     }
 }
 
-export const OPTIONS = {
-    schema: 'public',
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true
-}
+import {createClient} from '@supabase/supabase-js'
+import {OPTIONS, SUPABASE_URL, SUPABASE_KEY} from '../config'
 
-export const URL = 'https://tfnxpxrrpejortbsbjnd.supabase.co'
-
-export const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNzY5Mzk1MiwiZXhwIjoxOTUzMjY5OTUyfQ.mDH0Nc66EONfT-9RYu9zy-Uhz9GOEOK6fB5fWI0T8Sw'
-
-import {createClient} from "@supabase/supabase-js";
-import {OPTIONS, URL, API_KEY} from "./config";
-
-const supabase = createClient(URL, API_KEY, OPTIONS)
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, OPTIONS)
 
 export default supabase
