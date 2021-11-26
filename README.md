@@ -1,4 +1,6 @@
 # ugw
+Full Stack Application build with Vue.js and Supabase.
+Deployed at https://hungry-ride-19a9ed.netlify.app
 
 ## Project setup
 ```
