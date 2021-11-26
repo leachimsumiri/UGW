@@ -35,7 +35,7 @@
       <div class="radius-wrapper">
         <span>Radius: </span>
         <v-app>
-          <v-slider v-model="userDefinedRadius" min="1" max="100"></v-slider>
+          <v-slider v-model="userDefinedRadius" min="1" max="300"></v-slider>
         </v-app>
         <span>{{userDefinedRadius}}km</span>
       </div>
@@ -98,7 +98,7 @@ export default {
       long: null,
       accuracy: null,
       distanceCalculated: false,
-      userDefinedRadius: 50
+      userDefinedRadius: 150
     }
   },
   computed: {
