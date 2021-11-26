@@ -23,7 +23,8 @@ import Location from './daos/Location'
 import Events from './components/Events.vue'
 import Locations from './components/Locations.vue'
 
-import mapbox_access_token from './geo_location/mapbox_access_token'
+import {MAPBOX_ACCESS_TOKEN, } from "./config"
+//import {OPTIONS, URL, API_KEY} 
 
 // skip the 2 LSBs on event increase (requires highest Event-ID to be one lower than set number)
 const RECURRING_ID_INCREASE = 65536
@@ -113,7 +114,7 @@ export default {
         id: 'mapbox/streets-v11',
         tileSize: 512,
         zoomOffset: -1,
-        accessToken: mapbox_access_token
+        accessToken: MAPBOX_ACCESS_TOKEN
       }).addTo(this.map);
 
       this.setMapLocationMarker()

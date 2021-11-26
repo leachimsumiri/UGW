@@ -1,6 +1,6 @@
-import {createClient} from "@supabase/supabase-js";
-import {OPTIONS, URL, API_KEY} from "./config";
+import {createClient} from '@supabase/supabase-js'
+import {OPTIONS, SUPABASE_URL, SUPABASE_KEY} from '../config'
 
-const supabase = createClient(URL, API_KEY, OPTIONS)
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, OPTIONS)
 
 export default supabase

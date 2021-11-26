@@ -49,7 +49,7 @@ import {BTable, BSpinner} from 'bootstrap-vue'
 import format from 'date-fns/format'
 import $ from "jquery";
 import {mapState, mapGetters, mapActions} from 'vuex'
-import ipinfodb_apiKey from '../geo_location/ipinfodb_apiKey'
+import {IP_INFOS_KEY, } from '../config'
 import {VApp, VSlider} from 'vuetify/lib'
 import vuetify from '../plugins/vuetify';
 
@@ -155,7 +155,7 @@ export default {
       }
     },
     getUserLocationByIpAddress() {
-      $.getJSON('https://api.ipinfodb.com/v3/ip-city/?format=json&key=' + ipinfodb_apiKey, (data) => {
+      $.getJSON('https://api.ipinfodb.com/v3/ip-city/?format=json&key=' + IP_INFOS_KEY, (data) => {
         if (data.statusCode !== 'OK') {
           console.warn("error retrieving user location by ip address:")
           console.log(JSON.stringify(data, null, 2))
