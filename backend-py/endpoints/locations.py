@@ -1,0 +1,1 @@
+# INFO: Later possibly refactor location endpoint to here (especially if more complex intermediate calculations, e.g. distance, are needed here)
