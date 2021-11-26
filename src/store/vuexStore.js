@@ -5,6 +5,11 @@ export default {
         events: [],
         locations: []
     },
+    getters: {
+        filterByUserDefinedRadius: state => radius => {
+            return state.events.filter(event => !event.current_distance || event.current_distance <= radius)
+        }
+    },
     mutations: {
         addEvent(state, newEvent) {
             if(!state.events.find(event => event.id === newEvent.id)) {

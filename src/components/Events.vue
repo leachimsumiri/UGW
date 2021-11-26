@@ -4,7 +4,7 @@
     <b-table
         striped
         hover
-        :items="data"
+        :items="filterByUserDefinedRadius(userDefinedRadius)"
         :fields="computedFields"
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
@@ -27,9 +27,18 @@
         </div>
       </template>
     </b-table>
-    <div>
-      Sorting By: <b>{{ getSortByLabel(sortBy) }}</b>, Sort Direction:
-      <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
+    <div class="table-footer">
+      <div>
+        Sorting By: <b>{{ getSortByLabel(sortBy) }}</b>, Sort Direction:
+        <b>{{ sortDesc ? 'Descending' : 'Ascending' }}</b>
+      </div>
+      <div class="radius-wrapper">
+        <span>Radius: </span>
+        <v-app>
+          <v-slider v-model="userDefinedRadius" min="1" max="100"></v-slider>
+        </v-app>
+        <span>{{userDefinedRadius}}km</span>
+      </div>
     </div>
   </div>
 </template>
@@ -39,28 +48,26 @@
 import {BTable, BSpinner} from 'bootstrap-vue'
 import format from 'date-fns/format'
 import $ from "jquery";
-import {mapState, mapActions} from 'vuex'
+import {mapState, mapGetters, mapActions} from 'vuex'
+import ipinfodb_apiKey from '../geo_location/ipinfodb_apiKey'
+import {VApp, VSlider} from 'vuetify/lib'
+import vuetify from '../plugins/vuetify';
 
 export default {
   name: 'Events',
+  vuetify,
   props: [
-    'data',
     'busy'
   ],
   components: {
     "b-table": BTable,
-    "b-spinner": BSpinner
+    "b-spinner": BSpinner,
+    VApp,
+    VSlider
   },
   mounted() {
     this.getUserLocation()
-
-    setTimeout(() => {
-      if (!this.distanceCalculated && (!this.lat || !this.long)) {
-        this.getUserLocationByIpAddress()
-      } else {
-        this.userLocationSuccessHandler()
-      }
-    }, 5000)
+    this.addDistanceCalculatorTimeout()
   },
   data() {
     return {
@@ -91,11 +98,15 @@ export default {
       long: null,
       accuracy: null,
       distanceCalculated: false,
+      userDefinedRadius: 50
     }
   },
   computed: {
     ...mapState([
       'locations'
+    ]),
+    ...mapGetters([
+        'filterByUserDefinedRadius'
     ]),
     computedFields() {
       return this.distanceCalculated ? this.fields : this.fields.filter(field => field.key !== 'current_description')
@@ -144,8 +155,6 @@ export default {
       }
     },
     getUserLocationByIpAddress() {
-      let ipinfodb_apiKey = '25864308b6a77fd90f8bf04b3021a48c1f2fb302a676dd3809054bc1b07f5b42'
-
       $.getJSON('https://api.ipinfodb.com/v3/ip-city/?format=json&key=' + ipinfodb_apiKey, (data) => {
         if (data.statusCode !== 'OK') {
           console.warn("error retrieving user location by ip address:")
@@ -173,7 +182,34 @@ export default {
     getSortByLabel(key) {
       const field = this.fields.find(field => field.key === key)
       return field.label ? field.label : field.key.charAt(0).toUpperCase() + field.key.slice(1)
+    },
+    addDistanceCalculatorTimeout() {
+      setTimeout(() => {
+        if (!this.distanceCalculated && (!this.lat || !this.long)) {
+          this.getUserLocationByIpAddress()
+        } else {
+          this.userLocationSuccessHandler()
+        }
+      }, 5000)
     }
   }
 }
 </script>
+
+<style lang="scss">
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .radius-wrapper {
+    display: flex;
+
+    > div {
+      height: 0;
+      margin: 0 1rem;
+      width: 200px;
+    }
+  }
+}
+</style>

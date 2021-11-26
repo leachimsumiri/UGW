@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Events v-if="eventsTableIsActive" :data="events" :busy="eventFetchingActive" @geoDataLoaded="initMap"/>
+    <Events v-if="eventsTableIsActive" :busy="eventFetchingActive" @geoDataLoaded="initMap"/>
     <Locations v-else :data="locations" :busy="locationFetchingActive"/>
     <hr>
     <div>
