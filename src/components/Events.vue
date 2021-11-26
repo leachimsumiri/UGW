@@ -147,7 +147,7 @@ export default {
       let ipinfodb_apiKey = '25864308b6a77fd90f8bf04b3021a48c1f2fb302a676dd3809054bc1b07f5b42'
 
       $.getJSON('https://api.ipinfodb.com/v3/ip-city/?format=json&key=' + ipinfodb_apiKey, (data) => {
-        if (data.status !== 'OK') {
+        if (data.statusCode !== 'OK') {
           console.warn("error retrieving user location by ip address:")
           console.log(JSON.stringify(data, null, 2))
         } else {
@@ -168,6 +168,7 @@ export default {
       })
 
       this.distanceCalculated = true
+      this.$emit('geoDataLoaded', this.lat, this.long)
     },
     getSortByLabel(key) {
       const field = this.fields.find(field => field.key === key)

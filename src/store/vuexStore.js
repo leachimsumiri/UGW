@@ -6,11 +6,15 @@ export default {
         locations: []
     },
     mutations: {
-        addEvent(state, event) {
-            state.events.push(event)
+        addEvent(state, newEvent) {
+            if(!state.events.find(event => event.id === newEvent.id)) {
+                state.events.push(newEvent)
+            }
         },
-        addLocation(state, location) {
-            state.locations.push(location)
+        addLocation(state, newLocation) {
+            if(!state.locations.find(location => location.id === newLocation.id)) {
+                state.locations.push(newLocation)
+            }
         },
         enrichEventsByLocationDescription(state) {
             state.events.forEach(event => {

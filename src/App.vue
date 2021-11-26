@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <Events v-if="eventsTableIsActive" :data="events" :busy="eventFetchingActive"/>
+    <Events v-if="eventsTableIsActive" :data="events" :busy="eventFetchingActive" @geoDataLoaded="initMap"/>
     <Locations v-else :data="locations" :busy="locationFetchingActive"/>
     <hr>
     <div>
       Show <span class="table-trigger" @click="eventsTableIsActive =! eventsTableIsActive">{{ inactiveTable }}</span>
     </div>
+    <div id="map"></div>
   </div>
 </template>
 
@@ -22,6 +23,8 @@ import Location from './daos/Location'
 import Events from './components/Events.vue'
 import Locations from './components/Locations.vue'
 
+import mapbox_access_token from './geo_location/mapbox_access_token'
+
 export default {
   name: 'App',
   components: {
@@ -36,7 +39,8 @@ export default {
     return {
       eventFetchingActive: false,
       locationFetchingActive: false,
-      eventsTableIsActive: true
+      eventsTableIsActive: true,
+      map: null
     }
   },
   computed: {
@@ -77,6 +81,30 @@ export default {
       })
 
       this.locationFetchingActive = false
+    },
+    initMap(lat, long) {
+      if(this.map) return
+
+      this.setMapView(lat, long)
+
+      L.tileLayer(`https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}`, {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: mapbox_access_token
+      }).addTo(this.map);
+
+      this.setMapLocationMarker()
+    },
+    setMapView(lat, long) {
+      this.map = L.map('map').setView([lat, long], 13);
+    },
+    setMapLocationMarker() {
+      this.locations.forEach(location => L.marker([location.lat, location.long], {
+        title: location.description
+      }).addTo(this.map))
     }
   }
 }
@@ -86,5 +114,11 @@ export default {
 .table-trigger {
   cursor: pointer;
   color: -webkit-link;
+}
+
+#map {
+  width: 100%;
+  height: 800px;
+  margin-top: 2rem;
 }
 </style>
