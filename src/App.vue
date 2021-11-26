@@ -25,6 +25,9 @@ import Locations from './components/Locations.vue'
 
 import mapbox_access_token from './geo_location/mapbox_access_token'
 
+// skip the 2 LSBs on event increase (requires highest Event-ID to be one lower than set number)
+const RECURRING_ID_INCREASE = 65536
+
 export default {
   name: 'App',
   components: {
@@ -56,6 +59,7 @@ export default {
     ...mapMutations([
         'addEvent',
         'addLocation',
+        //'addRecurrentEvents',
         'enrichEventsByLocationDescription'
     ]),
     async fetchEvents() {
@@ -64,7 +68,23 @@ export default {
       const {data, error} = await supabase.from('events').select()
 
       data.forEach(item => {
-        this.addEvent(new Event(item.id, item.description, item.location_id, new Date(item.time).toISOString()))
+        console.log(item)
+
+        // One-time Event
+        if (item.recurring_day_interval === 0)
+          this.addEvent(new Event(item.id, item.description, item.location_id, new Date(item.time).toISOString()))
+        
+        // Recurring Event (add several instances)
+        else {
+          // Event creation here, therefore recurring also here (eventually could also be moved to separate method)
+          let baseDateTime = new Date(item.time)
+          this.addEvent(new Event(item.id,                         item.description, item.location_id, new Date(baseDateTime).toISOString()))
+          this.addEvent(new Event(item.id+RECURRING_ID_INCREASE,   item.description, item.location_id, new Date(baseDateTime.setDate(baseDateTime.getDate() + item.recurring_day_interval)).toISOString()))
+          this.addEvent(new Event(item.id+RECURRING_ID_INCREASE*2, item.description, item.location_id, new Date(baseDateTime.setDate(baseDateTime.getDate() + item.recurring_day_interval*2)).toISOString()))
+
+          // Possibly add events in a separate method, but hides what actually happens here. (Only) if process gets more complicated -> refactor to separate method, like ...
+          // this.addRecurrentEvents(new Event(item.id, item.description, item.location_id, new Date(item.time).toISOString()), item.recurring_day_interval) // also possible
+        }
       })
 
       this.enrichEventsByLocationDescription()

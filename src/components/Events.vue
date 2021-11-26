@@ -10,7 +10,7 @@
         :sort-desc.sync="sortDesc"
         :busy="busy">
       <template #cell(time)="data">
-        {{ format(new Date(data.value), 'PPpp') }}
+        {{ format(new Date(data.value), 'dd.MM.yyyy, HH:mm') }}
       </template>
       <template #cell(current_distance)="data">
         <div v-if="!data.value">

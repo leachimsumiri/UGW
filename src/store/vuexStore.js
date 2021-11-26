@@ -16,6 +16,14 @@ export default {
                 state.events.push(newEvent)
             }
         },
+        // addRecurrentEvents(state, newEvent, interval_in_days) {
+        //     if(!state.events.find(event => event.id === newEvent.id)) {
+        //         state.events.push(newEvent)
+                
+        //         // Add 2 additional instances
+        //         // ...
+        //     }
+        // },
         addLocation(state, newLocation) {
             if(!state.locations.find(location => location.id === newLocation.id)) {
                 state.locations.push(newLocation)
