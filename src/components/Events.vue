@@ -49,7 +49,7 @@ import {BTable, BSpinner} from 'bootstrap-vue'
 import format from 'date-fns/format'
 import $ from "jquery";
 import {mapState, mapGetters, mapActions} from 'vuex'
-import {IP_INFOS_KEY, } from '../config'
+import {IP_INFOS_KEY, } from '../../config'
 import {VApp, VSlider} from 'vuetify/lib'
 import vuetify from '../plugins/vuetify';
 

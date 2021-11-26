@@ -23,8 +23,8 @@ import Location from './daos/Location'
 import Events from './components/Events.vue'
 import Locations from './components/Locations.vue'
 
-import {MAPBOX_ACCESS_TOKEN, } from "./config"
-//import {OPTIONS, URL, API_KEY} 
+import {MAPBOX_ACCESS_TOKEN, } from "../config"
+//import {OPTIONS, URL, API_KEY}
 
 // skip the 2 LSBs on event increase (requires highest Event-ID to be one lower than set number)
 const RECURRING_ID_INCREASE = 65536
@@ -74,7 +74,7 @@ export default {
         // One-time Event
         if (item.recurring_day_interval === 0)
           this.addEvent(new Event(item.id, item.description, item.location_id, new Date(item.time).toISOString()))
-        
+
         // Recurring Event (add several instances)
         else {
           // Event creation here, therefore recurring also here (eventually could also be moved to separate method)
