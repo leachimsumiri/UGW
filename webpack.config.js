@@ -14,7 +14,9 @@ module.exports = {
         static: path.resolve(__dirname, './dist'),
     },
     plugins: [
-        new Dotenv(),
+        new Dotenv({
+            systemvars: true
+        }),
         new CleanWebpackPlugin(),
         new VueLoaderPlugin(),
         new HtmlWebpackPlugin({ template: './src/index.html' }),
