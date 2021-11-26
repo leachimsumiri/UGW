@@ -4,12 +4,11 @@ module.exports = (grunt) => {
 
     require('load-grunt-tasks')(grunt);
 
-    // Project configuration.
     const gruntConfig = {
         pkg: config,
 
         clean: {
-            files: ['dist/*', '!dist/bundle.js', '!dist/bundle.min.js', '!dist/bundle.min.obfsc.js', '!dist/bundle.min.css', '!dist/*html'],
+            files: ['dist/*', '!dist/bundle.js', '!dist/bundle.min.js', '!dist/*html'],
         },
 
         concat: {

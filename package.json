@@ -3,7 +3,7 @@
     "version": "1.0.0-SNAPSHOT",
     "scripts": {
         "serve": "webpack-dev-server --mode development",
-        "build": "webpack --mode production && grunt --mode=production"
+        "build": "grunt --mode=production && webpack --mode production"
     },
     "devDependencies": {
         "@babel/core": "^7.15.5",

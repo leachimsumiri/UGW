@@ -5,13 +5,13 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-    entry: "./src/main.js",
+    entry: path.join(__dirname, '/src/main.js'),
     output: {
+        path: path.resolve(__dirname, './dist'),
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
     },
     devServer: {
-        static: path.resolve(__dirname, 'dist'),
+        static: path.resolve(__dirname, './dist'),
     },
     plugins: [
         new Dotenv(),
@@ -20,12 +20,14 @@ module.exports = {
         new HtmlWebpackPlugin({ template: './src/index.html' }),
     ],
     module: {
-        // configuration regarding modules
         rules: [
             {
-                test: /\.(js)$/,
-                exclude: /node_modules/, // files to exclude
-                use: ['babel-loader'],
+                test: /\.js$/, use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
             },
             {test: /\.vue$/, use: 'vue-loader'},
             {test: /\.css$/, use: ['vue-style-loader', 'css-loader']},
